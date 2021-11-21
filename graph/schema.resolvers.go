@@ -6,9 +6,12 @@ package graph
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 
 	"github.com/Roshantwanabasu/graphql-go-demo/graph/generated"
 	"github.com/Roshantwanabasu/graphql-go-demo/graph/model"
+	"github.com/Roshantwanabasu/graphql-go-demo/repository"
 )
 
 func (r *mutationResolver) CreateBook(ctx context.Context, title string, author string) (*model.Book, error) {
@@ -16,7 +19,11 @@ func (r *mutationResolver) CreateBook(ctx context.Context, title string, author 
 }
 
 func (r *mutationResolver) CreateAuthor(ctx context.Context, firstName string, lastName string) (*model.Author, error) {
-	panic(fmt.Errorf("not implemented"))
+	var author model.Author
+	author.FirstName = firstName
+	author.LastName = lastName
+	id, _ := repository.CreateAuthor(author)
+	return &model.Author{ID: strconv.FormatInt(id, 10), FirstName: author.FirstName, LastName: author.LastName}, nil
 }
 
 func (r *queryResolver) BookByID(ctx context.Context, id *string) (*model.Book, error) {
@@ -28,7 +35,12 @@ func (r *queryResolver) AllBooks(ctx context.Context) ([]*model.Book, error) {
 }
 
 func (r *queryResolver) AuthorByID(ctx context.Context, id *string) (*model.Author, error) {
-	panic(fmt.Errorf("not implemented"))
+	author, err := repository.GetAuthorById(id)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	return author, nil
 }
 
 func (r *queryResolver) AllAuthors(ctx context.Context) ([]*model.Author, error) {

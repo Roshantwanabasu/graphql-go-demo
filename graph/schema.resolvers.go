@@ -11,11 +11,27 @@ import (
 	"github.com/Roshantwanabasu/graphql-go-demo/graph/model"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateBook(ctx context.Context, title string, author string) (*model.Book, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+func (r *mutationResolver) CreateAuthor(ctx context.Context, firstName string, lastName string) (*model.Author, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) BookByID(ctx context.Context, id *string) (*model.Book, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) AllBooks(ctx context.Context) ([]*model.Book, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) AuthorByID(ctx context.Context, id *string) (*model.Author, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) AllAuthors(ctx context.Context) ([]*model.Author, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

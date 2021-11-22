@@ -15,7 +15,19 @@ import (
 )
 
 func (r *mutationResolver) CreateBook(ctx context.Context, title string, author string) (*model.Book, error) {
-	panic(fmt.Errorf("not implemented"))
+	var book model.Book
+	book.Title = title
+	book.Author = &model.Author{
+		ID: author,
+	}
+	id, err := repository.CreateBook(book)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	idStr := strconv.Itoa(int(id))
+	createdBook, _ := repository.GetBookByID(&idStr)
+	return createdBook, nil
 }
 
 func (r *mutationResolver) CreateAuthor(ctx context.Context, firstName string, lastName string) (*model.Author, error) {
@@ -27,7 +39,12 @@ func (r *mutationResolver) CreateAuthor(ctx context.Context, firstName string, l
 }
 
 func (r *queryResolver) BookByID(ctx context.Context, id *string) (*model.Book, error) {
-	panic(fmt.Errorf("not implemented"))
+	book, err := repository.GetBookByID(id)
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+	return book, nil
 }
 
 func (r *queryResolver) AllBooks(ctx context.Context) ([]*model.Book, error) {
